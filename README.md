@@ -1,5 +1,5 @@
-# Small_Distributed_System
-the practice with Go to build distributed systems
+# Distributed_Anomaly_Detection_System
+the practice with Go to build distributed systems for anomaly detection
 
 ## Features:
 - one master node, several slave nodes
