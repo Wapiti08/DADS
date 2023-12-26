@@ -8,6 +8,20 @@ the practice with Go to build distributed systems for anomaly detection
 - each node has its unique ID
 - first node is default the master cluster. If it dies, re-elect a master
 
+## Structure
+
+- cmd: contains the main appliations and entry points
+
+- internal: defined packages with internal usage only
+
+- pkg: packages used for external projects
+
+- api: define api-related code
+
+- scripts: automation scripts
+
+- web: web-related assets, static files and templates
+
 ## References
 
 *https://dev.to/tikazyq/golang-in-action-how-to-implement-a-simple-distributed-system-2n0n*
