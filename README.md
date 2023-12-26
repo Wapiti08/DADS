@@ -1,5 +1,6 @@
 # Distributed_Anomaly_Detection_System
-the practice with Go to build distributed systems for anomaly detection
+
+The implementation of anomaly detection with Golang Deep Learning in distributed setting up
 
 ## Features:
 - one master node, several slave nodes
