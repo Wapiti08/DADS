@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"rand"
 	"time"
@@ -31,4 +32,8 @@ func main() {
 	// convert slice s3 into elements
 	s3 = append(s3, s3...)
 	fmt.Println(s3)
+
+	// Fprintln ---- print from a reader interface
+	mystring := new(bytes.Buffer)
+	fmt.Fprintln(mystring)
 }
