@@ -4,7 +4,7 @@ The implementation of anomaly detection with Golang Deep Learning in distributed
 
 ## Features:
 - one master node, several slave nodes
-- communicate through TCP protocols
+- communicate through API implemented with gRPC protocols
 - messages are json packets
 - each node has its unique ID
 - first node is default the master cluster. If it dies, re-elect a master
@@ -23,9 +23,14 @@ The implementation of anomaly detection with Golang Deep Learning in distributed
 
 - web: web-related assets, static files and templates
 
+## Workflow
+
+- Client initializes API call for Master Node
+- Master node assigns task to work node n
+- Work node n executes script/task and report status to Master Node
+
 ## References
 
 *https://dev.to/tikazyq/golang-in-action-how-to-implement-a-simple-distributed-system-2n0n*
-*https://didil.medium.com/building-a-simple-distributed-system-with-go-consul-39b08ffc5d2c*
 *https://confusedcoders.com/general-programming/go-lang/create-a-basic-distributed-system-in-go-lang-part-1*
 *https://confusedcoders.com/general-programming/go-lang/create-a-basic-distributed-system-in-go-lang-part-2-http-server-json-requestresponse*

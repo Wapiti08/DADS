@@ -1,0 +1,19 @@
+syntax = "proto3"
+
+package core;
+option go_package = ".;core";
+
+message Request {
+    string action = 1;
+}
+
+message Response {
+    string data = 1;
+}
+
+service NodeService {
+    // simple RPC --- only allow clients to call server
+    rpc ReportStatus(Request) returns (Response){};
+    // service-side RPC --- all server sent data to client/work node via stream
+    rpc AssignTask(Requst) returns (stream Response){};
+}
