@@ -33,6 +33,9 @@ func CreateRoom(name string) *room {
 }
 
 func (r *room) AddClient(c io.ReadWriteCloser) {
+	/*
+	:param c: connection channel
+	*/
 	r.Lock()
 	// startclient and return the write chan for per client
 	cc, done := StartClient(r.Msgch, c, r.Quit)
@@ -88,5 +91,10 @@ func (r *room) broadcasting(msg string) {
 			wc <- msg
 		}(cc)
 	}
+}
+
+// calculate the number of client
+func (r *room) ClCount() int{
+	return len(r.clients)
 }
 
