@@ -1,1 +1,5 @@
 DADS rooms.go:73: Starting chat room AnoamalDetection
+DADS hchat.go:60: Received request from client 127.0.0.1:52077
+DADS clients.go:28: 
+DADS hchat.go:60: Received request from client 127.0.0.1:52082
+DADS clients.go:28: 
