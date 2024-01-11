@@ -31,12 +31,13 @@ The implementation of anomaly detection with Golang Deep Learning in distributed
 
 ## Running Instructions
 
-'''
+```
 # install gRPC
 go install google.golang.org/protobuf/cmd/protoc-gen-go@1.26
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 export PATH="$PATH:$(go env GOPATH)/bin"
-'''
+
+```
 
 ## References
 
