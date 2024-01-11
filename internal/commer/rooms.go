@@ -3,28 +3,27 @@ package commer
 import (
 	"fmt"
 	"io"
-	"net"
 	"sync"
 )
 
 type room struct {
-	name string
+	name  string
 	Msgch chan string
 	// chan stores the strings
-	clients map[chan <- string]struct{}
-	Quit chan struct{}
+	clients map[chan<- string]struct{}
+	Quit    chan struct{}
 	// used for write/ read(mul)
 	*sync.RWMutex
 }
 
 func CreateRoom(name string) *room {
 	r := &room{
-		name:		name,
-		Msgch:		make(chan string),
-		clients: 	make(map[chan <-string]struct{}),
-		Quit:		make(chan strutc{}),
+		name:    name,
+		Msgch:   make(chan string),
+		clients: make(map[chan<- string]struct{}),
+		Quit:    make(chan struct{}),
 		// use new to generate pointer
-		RWMutex:	new(sync.RWMutex)
+		RWMutex: new(sync.RWMutex),
 	}
 	// implemented monitoring attribute
 	r.Run()
@@ -34,7 +33,7 @@ func CreateRoom(name string) *room {
 
 func (r *room) AddClient(c io.ReadWriteCloser) {
 	/*
-	:param c: connection channel
+		:param c: connection channel
 	*/
 	r.Lock()
 	// startclient and return the write chan for per client
@@ -45,24 +44,26 @@ func (r *room) AddClient(c io.ReadWriteCloser) {
 	// remove client when it is done
 	go func() {
 		<-done
-		r.RemoveCilent(cc)
+		r.RemoveClient(cc)
 	}()
 }
 
-func (r *room) RemoveClient(cc chan<-string) {
+func (r *room) RemoveClient(cc chan<- string) {
 	logger.Println("Removing client")
 	r.Lock()
 	close(cc)
-	delete(c.clients, cc)
+
+	delete(r.clients, cc)
+
 	r.Unlock()
 
 	// check the stop signal -- select is used for multiple channels
 	select {
 	case <-r.Quit:
-		if len(r.clients) == 0{
+		if len(r.clients) == 0 {
 			close(r.Msgch)
 		}
-	// when no channel is ready, avoid block 
+	// when no channel is ready, avoid block
 	default:
 	}
 
@@ -88,13 +89,12 @@ func (r *room) broadcasting(msg string) {
 		// client chan is string type
 		go func(cc chan<- string) {
 			// write msg to client chan
-			wc <- msg
+			cc <- msg
 		}(cc)
 	}
 }
 
 // calculate the number of client
-func (r *room) ClCount() int{
+func (r *room) ClCount() int {
 	return len(r.clients)
 }
-

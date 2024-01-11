@@ -1,8 +1,8 @@
 package commer
 
 import (
+	"distributed_anomaly_detection_system/internal/hlogger"
 	"fmt"
-	"internal/hlogger"
 	"net"
 	"os"
 	"os/signal"
@@ -56,6 +56,7 @@ func Run(connection string) error {
 }
 
 func handleConnection(r *room, c net.Conn) {
+	// print out the address of request
 	logger.Println("Received request from client", c.RemoteAddr())
 	r.AddClient(c)
 }

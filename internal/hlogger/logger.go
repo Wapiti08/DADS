@@ -19,9 +19,9 @@ func GetInstance() *hLogger {
 	// create file for once, append mode for context
 	once.Do(
 		func() {
-			hlogger = createLogger()
-		}
-	)
+			hlogger = createLogger("DADS.log")
+		})
+	return hlogger
 }
 
 // create a logger instance
@@ -30,6 +30,6 @@ func createLogger(fname string) *hLogger {
 
 	return &hLogger{
 		filename: fname,
-		Logger: log.New(file, "DADS ", log.Lshortfile),
+		Logger:   log.New(file, "DADS ", log.Lshortfile),
 	}
 }

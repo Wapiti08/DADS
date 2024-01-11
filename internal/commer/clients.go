@@ -3,7 +3,6 @@ package commer
 import (
 	"bufio"
 	"io"
-	"fmt"
 )
 
 type client struct {
@@ -13,14 +12,14 @@ type client struct {
 	wc chan string
 }
 
-func StartClient(msgCh chan<-string, cn io.ReadWriteCloser, r room.Quit) {
+func StartClient(msgCh chan<- string, cn io.ReadWriteCloser, quit chan struct{}) (chan<- string, <-chan struct{}) {
 	// create a new client with pointer type
 	c := new(client)
 	// create reader channel by loading reader from connection channel
 	c.Reader = bufio.NewReader(cn)
 	c.Writer = bufio.NewWriter(cn)
 
-	c.wc = make(chan strign)
+	c.wc = make(chan string)
 	done := make(chan struct{})
 
 	go func() {
@@ -33,7 +32,7 @@ func StartClient(msgCh chan<-string, cn io.ReadWriteCloser, r room.Quit) {
 	}()
 
 	// build the writer
-	c.writerMonitor()	
+	c.writerMonitor()
 
 	// build the part to process stop/done/quit
 	go func() {
@@ -49,9 +48,9 @@ func StartClient(msgCh chan<-string, cn io.ReadWriteCloser, r room.Quit) {
 
 func (c *client) writerMonitor() {
 	go func() {
-		for s:= range c.wc{
+		for s := range c.wc {
 			c.WriteString(s + "\n")
 			c.Flush()
 		}
-	}
+	}()
 }
