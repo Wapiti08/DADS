@@ -1,0 +1,14 @@
+ <ship>
+     <ShipInfo>
+         <ShipID>1</ShipID>
+         <ShipClass>Fighter</ShipClass>
+     </ShipInfo>
+     <Captain>
+         <name>Jaro</name>
+         <clearacelevel>10</clearacelevel>
+         <accesscodes>
+             <code>ADA</code>
+             <code>LAL</code>
+         </accesscodes>
+     </Captain>
+ </ship>

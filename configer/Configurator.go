@@ -38,7 +38,7 @@ func GetConfiguration(confType uint8, obj interface{}, filename string) error {
 	case JSON:
 		err = decodeJSONConfig(obj, filename)
 	case XML:
-		err = decodeJSONConfig(obj, filename)
+		err = decodeXMLConfig(obj, filename)
 	}
 	return err
 }
