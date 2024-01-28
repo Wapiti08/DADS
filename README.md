@@ -28,6 +28,7 @@ The implementation of anomaly detection with Golang Deep Learning in distributed
 - Client initializes API call for Master Node
 - Master node assigns task to work node n
 - Work node n executes script/task and report status to Master Node
+- MongoDB + GraphQL for data storage and query support
 
 ## Running Instructions
 
