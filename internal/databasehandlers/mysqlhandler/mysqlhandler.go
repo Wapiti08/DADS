@@ -84,6 +84,16 @@ func (cm crewMember) GetCrewById(db *sql.DB, id int)  {
 	return
 }
 
-func AddCrewMember(db *sql.DB, cm crewcrewMember) int64 {
-	
+func AddCrewMember(db *sql.DB, cm crewMember) int64 {
+	res, err := db.Exec("INSERT INTO Personnel (Nmae,SecurityClearance,Position) VALUES (?,?,?)", cm.name, cm.secClearance, cm.position)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ra, _ := res.RowsAffected()
+	re, _ := res.LastInsertId()
+
+	log.Println("Rows Affected", ra, "Last inserted id", re)
+	return re
 }
+
