@@ -1,6 +1,6 @@
 package main
 
-import {
+import (
 	"encoding/csv"
 	"io"
 	"log"
@@ -10,7 +10,7 @@ import {
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-}
+)
 
 type crewMember strcut {
 	ID int   `bson:"id"`
