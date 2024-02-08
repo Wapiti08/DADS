@@ -35,6 +35,7 @@ func main() {
 	n, _ := personnel.Count()
 	log.Println("Number of personnel is ", n)
 
+	// find by id number
 	cm := crewMember{}
 	personnel.Find(bson.M{"id":3}).One(&cm)
 	log.Println(cm)
