@@ -9,6 +9,7 @@ import (
 	"net"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -27,8 +28,57 @@ func main() {
 }
 
 func runServer(address string) error {
-	net.Listen("tcp", address)
+	
+	l, err := net.Listen("tcp", address)
+	if err != nil {
+		log.Fatal("Fail to listen: ", address)
+	}
+	log.Println("Listening ...")
+	defer l.Close()
+	for {
+		// the listener containers the built-in multiple channels
+		conn, err := l.Accept()
+		// check error
+		if err != nil {
+			return err
+		}
+		// handle connection
+		go handleConnection(conn)
+	}
+
 }
+
+func handleConnection(c net.Conn) {
+	defer c.Close()
+
+	// define reader and writer, reader receives info from client, writer sends info to client
+	reader := bufio.NewReader(c)
+	writer := bufio.NewWriter(c)
+
+	// set reader method with line by line
+	for {
+		c.SetDeadline(time.Now().Add(5 * time.Second))
+		// read the separater for rows (pre-defined)
+		line, err := reader.ReadString('\r')
+	
+		if err != nil && err != io.EOF {
+			log.Println(err)
+			return
+
+		} else if err == io.EOF {
+			log.Println("Connection closed")
+			return
+		}
+
+		fmt.Printf("Received %s from address %s \n", line[:len(line)-1], c.RemoteAddr)
+		// flush the message
+		writer.WriteString("Message received ...")
+		writer.Flush()
+	}
+
+}
+
+
 
 func runClient(address string) error {
 	conn, err := net.Dial("tcp", address)
@@ -53,7 +103,7 @@ func runClient(address string) error {
 		if err != nil && err != io.EOF {
 			log.Fatal(err)
 		} else if err == io.EOF {
-			fmt.Println("connection is close")
+			log.Println("connection is close")
 		}
 
 		fmt.Println(string(buffer))
