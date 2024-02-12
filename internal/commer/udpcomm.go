@@ -52,5 +52,20 @@ func runUDPClient(address string) error {
 }
 
 func runUDPServer(address string) error {
+	pc, err := net.ListenPacket("udp", address)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer pc.Close()
 
+	buffer := make([]byte, 1024)
+	fmt.Println("Listening ....")
+	for {
+		_, addr,_ := pc.ReadFrom(buffer)
+		fmt.Printf("Received %s from address %s \n", string(buffer), addr)
+		_, err := pc.WriteTo([]byte("Message Received"), addr)
+		if err != nil {
+			log.Fatal("Could not write back on connection ", err)
+		}
+	}
 }

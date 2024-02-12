@@ -63,7 +63,7 @@ func runUDPServer(address string) error {
 		log.Fatal(err)
 	}
 	dst := make([]byte, base64.StdEncoding.DecodedLen(n))
-
+	// control the size of real context part
 	_, err = base64.StdEncoding.Decode(dst, buffer[:n])
 	if err != nil {
 		log.Fatal(err)
