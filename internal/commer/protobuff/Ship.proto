@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package protobuff;
 
+option go_package = "../protobuff";
+
 message Ship{
 
     string shipname = 1;

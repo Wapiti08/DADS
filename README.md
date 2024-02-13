@@ -30,7 +30,7 @@ The implementation of anomaly detection with Golang Deep Learning in distributed
 - Work node n executes script/task and report status to Master Node
 - MongoDB + GraphQL for data storage and query support
 
-## Running Instructions
+## Running Instructions (Mac)
 
 ```
 # install gRPC
@@ -38,6 +38,10 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@1.26
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 export PATH="$PATH:$(go env GOPATH)/bin"
 
+# download protobuf3 (need to add option with go_package in .proto file )
+brew install protobuf
+go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+protoc --go_out=. {name}.proto
 ```
 
 ## References
