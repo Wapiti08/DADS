@@ -2,6 +2,7 @@ package protobuff
 
 import (
 	"errors"
+	"io"
 	"log"
 	"net"
 
@@ -46,7 +47,8 @@ func (pSender *ProtoHandler) EncodeAndSend(obj interface{}, dest string) error {
 }
 
 func (pSender *ProtoHandler) ListenAndDecode(listenaddress string) (chan interface{}, error) {
-
+	// make the channel for syntherizing the communication
+	outChan := make(chan interface{})
 	l, err := net.Listen("tcp", listenaddress)
 	if err != nil {
 		return nil, err
@@ -56,23 +58,46 @@ func (pSender *ProtoHandler) ListenAndDecode(listenaddress string) (chan interfa
 		defer l.Close()
 		for {
 			conn, err := l.Accept()
-				
-			go func(c net.Conn) {
-				defer c.Close()
+			if err != nil {
+				break
+			}
+			go func(conn net.Conn) {
+				defer conn.Close()
+				// keep reading message
 				for {
-			
-		
+					buffer, err := io.ReadAll(conn)
+					if err != nil {
+						break
+					}
+					// the message is blank
+					if len(buffer) == 0 {
+						continue
+					}
 
-		// use select to control the wait status of channel --- non-block operations
+					// send message
+					obj, err := pSender.DecodeProto(buffer)
+					if err != nil {
+						continue
+					}
+
+					// use select to control the wait status of channel --- non-block operations
+					select {
+					case outChan <- obj:
+					// avoid block when none of the other cases are immediately ready
+					default:
+					}
 
 				}
-			}(c)
+			}(conn)
 		}
 	}()
+	return outChan, nil
+}
 
-
-
-
+func (pSender *ProtoHandler) DecodeProto(data []byte) (*Ship, error) {
+	pb := new(Ship)
+	err := proto.Unmarshal(data, pb)
+	return pb, err
 }
 
 
