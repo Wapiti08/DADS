@@ -4,16 +4,24 @@ The implementation of anomaly detection with Golang Deep Learning in distributed
 
 ## Features:
 - one master node, several slave nodes
-- communicate through API implemented with gRPC protocols
+- communicate between components via gRPC protocols
 - messages are json packets
 - each node has its unique ID
 - first node is default the master cluster. If it dies, re-elect a master
+- central node is to aggregate the results from client decision maker
+- data query service with GraphQL or Mongodb or Redis
 
 ## Structure
 
 - cmd: contains the main appliations and entry points
 
 - internal: defined packages with internal usage only
+
+    - dataparser: process multiple data (logs, network traffic, process)
+
+    - detection: design the detection logic for different data sources
+
+    - aggregator: the aggregation process with centrol node
 
 - pkg: packages used for external projects
 
@@ -49,3 +57,4 @@ protoc --go_out=. {name}.proto
 *https://dev.to/tikazyq/golang-in-action-how-to-implement-a-simple-distributed-system-2n0n*
 *https://confusedcoders.com/general-programming/go-lang/create-a-basic-distributed-system-in-go-lang-part-1*
 *https://confusedcoders.com/general-programming/go-lang/create-a-basic-distributed-system-in-go-lang-part-2-http-server-json-requestresponse*
+*https://www.apollographql.com/blog/using-graphql-with-golang*
